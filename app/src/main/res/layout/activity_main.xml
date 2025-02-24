@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@android:color/white"
+    tools:context=".MainActivity">
+
+    <!-- Contenedor con sombra y bordes redondeados -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Campo de Usuario -->
+            <EditText
+                android:id="@+id/etUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Usuario"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:drawableLeft="@android:drawable/ic_menu_edit"
+                android:drawablePadding="10dp"
+                android:inputType="textPersonName"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Campo de Contraseña -->
+            <EditText
+                android:id="@+id/etContrasena"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Contraseña"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:drawableLeft="@android:drawable/ic_lock_idle_lock"
+                android:drawablePadding="10dp"
+                android:inputType="textPassword"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Botón de Ingresar -->
+            <Button
+                android:id="@+id/btnIngresar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Ingresar"
+                android:textSize="18sp"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:layout_marginBottom="12dp"
+
+                android:fontFamily="sans-serif-medium"/>
+
+            <!-- Botón de Crear Usuario -->
+            <Button
+                android:id="@+id/btnCrearUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Crear Usuario"
+                android:textSize="18sp"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@android:color/holo_green_dark"
+
+                android:fontFamily="sans-serif-medium"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
