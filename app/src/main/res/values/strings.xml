@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">ProyectoFinalAndroid</string>
+    <string name="title_text">El mejor app para control de residuos</string>
+    <string name="sign_in_button">Iniciar Sesion</string>
+    <string name="create_account_button">Crea una cuenta</string>
 </resources>

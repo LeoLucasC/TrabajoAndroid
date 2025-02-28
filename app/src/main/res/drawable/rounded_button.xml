@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Sombra del botón -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="24dp" />
+            <solid android:color="#50000000"/> <!-- Color de la sombra, ajusta la opacidad si necesario -->
+            <padding android:bottom="2dp" android:right="2dp"/> <!-- Desplazamiento de la sombra -->
+        </shape>
+    </item>
+    <!-- Botón con efecto translúcido -->
+    <item android:left="1dp" android:right="1dp" android:top="1dp" android:bottom="3dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="24dp" />
+            <gradient
+                android:startColor="#80FFFFFF"
+                android:endColor="#80FFFFFF"
+                android:angle="90"/>
+        </shape>
+    </item>
+</layer-list>
+
