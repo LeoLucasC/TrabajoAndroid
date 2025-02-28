@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Registro">
+
+    <!-- Fondo de pantalla -->
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondoreal" />
+
+    <!-- Título de Registro -->
+    <TextView
+        android:id="@+id/tvRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="96dp"
+        android:layout_marginStart="32dp"/>
+
+    <!-- Campos de Registro -->
+    <EditText
+        android:id="@+id/etFullName"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:hint="Full Name"
+        android:background="@drawable/edit_text_background"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@id/tvRegister"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"/>
+
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:hint="Email"
+        android:background="@drawable/edit_text_background"
+        android:inputType="textEmailAddress"
+        app:layout_constraintTop_toBottomOf="@id/etFullName"
+        app:layout_constraintStart_toStartOf="@id/etFullName"
+        app:layout_constraintEnd_toEndOf="@id/etFullName"/>
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:hint="Password"
+        android:background="@drawable/edit_text_background"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@id/etEmail"
+        app:layout_constraintStart_toStartOf="@id/etEmail"
+        app:layout_constraintEnd_toEndOf="@id/etEmail"/>
+
+    <!-- Botón de Registro -->
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:backgroundTint="@color/purple_500"
+        app:layout_constraintTop_toBottomOf="@id/etPassword"
+        app:layout_constraintStart_toStartOf="@id/etPassword"
+        app:layout_constraintEnd_toEndOf="@id/etPassword"
+        android:layout_marginTop="24dp"/>
+
+    <!-- Botones de redes sociales (Facebook, Google, Apple) -->
+    <!-- Asumiendo que tienes drawables/ic_facebook, ic_google, ic_apple -->
+    <LinearLayout
+        android:id="@+id/socialMediaButtons"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/btnRegister"
+        app:layout_constraintStart_toStartOf="@id/btnRegister"
+        app:layout_constraintEnd_toEndOf="@id/btnRegister">
+
+        <ImageButton
+            android:id="@+id/btnFacebook"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/facebook" />
+
+        <ImageButton
+            android:id="@+id/btnGoogle"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/google" />
+
+
+    </LinearLayout>
+
+    <!-- Texto para cambiar a pantalla de login -->
+    <TextView
+        android:id="@+id/signUpPrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already have an account? Sign up"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="32dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
