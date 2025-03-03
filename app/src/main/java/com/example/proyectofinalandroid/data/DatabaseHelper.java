@@ -1,5 +1,6 @@
 package com.example.proyectofinalandroid.data;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -36,7 +37,7 @@ public class DatabaseHelper {
     }
 
     // Método para verificar credenciales del usuario en la base de datos
-    public boolean verificarCredenciales(String usuario, String contrasena) {
+    public boolean verificarCredenciales(String email, String contrasena) {
         boolean resultado = false;
         SQLiteDatabase db = null;
         Cursor cursor = null;
@@ -44,8 +45,8 @@ public class DatabaseHelper {
         try {
             db = SQLiteDatabase.openDatabase(context.getDatabasePath(DATABASE_NAME).getPath(), null, SQLiteDatabase.OPEN_READONLY);
 
-            String query = "SELECT * FROM usuarios WHERE nombre = ? AND contrasena = ?";
-            cursor = db.rawQuery(query, new String[]{usuario, contrasena});
+            String query = "SELECT * FROM usuarios WHERE email = ? AND contrasena = ?";
+            cursor = db.rawQuery(query, new String[]{email, contrasena});
 
             if (cursor.getCount() > 0) {
                 resultado = true; // Usuario encontrado
@@ -58,4 +59,29 @@ public class DatabaseHelper {
         }
         return resultado;
     }
+
+    public long insertarUsuario(String nombre, String email, String contrasena) {
+        long resultado = -1;
+        SQLiteDatabase db = null;
+
+        try {
+            db = SQLiteDatabase.openDatabase(context.getDatabasePath(DATABASE_NAME).getPath(), null, SQLiteDatabase.OPEN_READWRITE);
+
+            ContentValues values = new ContentValues();
+            values.put("nombre", nombre);
+            values.put("email", email);
+            values.put("contrasena", contrasena);
+
+            resultado = db.insert("usuarios", null, values);
+        } catch (Exception e) {
+            Log.e("DatabaseHelper", "Error insertando usuario: " + e.getMessage());
+        } finally {
+            if (db != null) db.close();
+        }
+        return resultado;
+    }
+
+
+
+
 }

@@ -13,6 +13,9 @@
         android:theme="@style/Theme.ProyectoFinalAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".Panelcontrol"
+            android:exported="false" />
+        <activity
             android:name=".Registro"
             android:exported="false" />
         <activity

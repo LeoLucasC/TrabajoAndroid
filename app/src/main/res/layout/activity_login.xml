@@ -2,116 +2,152 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/mainn"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".login">
 
-
+    <!-- Fondo de la pantalla -->
     <ImageView
         android:id="@+id/backgroundImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/background_image2"/>
+        android:src="@drawable/background_image2" />
 
-
+    <!-- Capa oscura para mejorar la legibilidad -->
     <View
         android:id="@+id/overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#80000000" />
 
-
+    <!-- Tarjeta de inicio de sesión -->
     <androidx.cardview.widget.CardView
         android:id="@+id/login_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="200dp"
         android:layout_marginEnd="24dp"
+        app:cardBackgroundColor="#F5FFFFFF"
         app:cardCornerRadius="16dp"
         app:cardElevation="16dp"
-        app:cardBackgroundColor="#F5FFFFFF"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="24dp">
 
+            <!-- Título de bienvenida -->
+
+            <!-- Logo debajo del título -->
             <TextView
                 android:id="@+id/welcomeBack"
-                android:layout_width="286dp"
-                android:layout_height="36dp"
+                android:layout_width="303dp"
+                android:layout_height="28dp"
                 android:layout_marginStart="28dp"
+                android:layout_marginEnd="28dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Bienvenido de nuevo"
                 android:textColor="@android:color/holo_green_dark"
                 android:textSize="26sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/fullName"
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/nuclear"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/welcomeBack" />
+
+            <!-- Campo de email -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilEmail"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="Full Name"
-                android:inputType="textPersonName"
-                android:padding="12dp"
-                android:backgroundTint="@android:color/black"
-                app:layout_constraintTop_toBottomOf="@id/welcomeBack"
+                android:hint="Email"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/logo">
 
-            <EditText
-                android:id="@+id/password"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/black"
+                    android:inputType="textEmailAddress"
+                    android:padding="12dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Campo de contraseña -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPassword"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:padding="12dp"
-                android:backgroundTint="@android:color/black"
-                app:layout_constraintTop_toBottomOf="@id/fullName"
+                android:hint="Contraseña"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/tilEmail"
+                app:passwordToggleEnabled="true">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/black"
+                    android:inputType="textPassword"
+                    android:padding="12dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Checkbox para "Recuérdame" -->
             <CheckBox
                 android:id="@+id/rememberMe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Remember Me"
+                android:layout_marginTop="12dp"
+                android:text="Recuérdame"
                 android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/password"
-                android:layout_marginTop="12dp" />
+                app:layout_constraintTop_toBottomOf="@id/tilPassword" />
 
+            <!-- Botón de inicio de sesión -->
             <Button
                 android:id="@+id/loginButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:layout_marginTop="20dp"
                 android:backgroundTint="@android:color/holo_purple"
+                android:text="Iniciar Sesión"
                 android:textColor="@android:color/white"
-                app:layout_constraintTop_toBottomOf="@id/rememberMe"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="20dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rememberMe" />
 
+            <!-- Enlace para crear una cuenta -->
             <TextView
                 android:id="@+id/signUpPrompt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Don't have an account? Sign up"
+                android:layout_marginTop="16dp"
+                android:text="¿No tienes una cuenta? Crear una cuenta"
                 android:textColor="@android:color/holo_blue_dark"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/loginButton"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="16dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/loginButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
