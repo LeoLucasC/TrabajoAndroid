@@ -68,7 +68,7 @@ public class Registro extends AppCompatActivity {
             }
         });
 
-        // Configurar el OnClickListener para el TextView de inicio de sesión
+
         signUpPrompt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +78,7 @@ public class Registro extends AppCompatActivity {
             }
         });
 
-        // Aplica los insets
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.container), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -86,22 +86,22 @@ public class Registro extends AppCompatActivity {
         });
     }
 
-    // Método para mostrar un cuadro de diálogo de registro exitoso
+
     private void mostrarDialogoRegistroExitoso() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Registro exitoso");
         builder.setMessage("¡Tu cuenta ha sido creada con éxito!");
-        builder.setIcon(R.drawable.comprobado); // Cambia "ic_success" por el nombre de tu ícono
+        builder.setIcon(R.drawable.comprobado);
         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Redirigir al usuario a la actividad de inicio de sesión
+
                 Intent intent = new Intent(Registro.this, login.class);
                 startActivity(intent);
-                finish(); // Opcional: cierra la actividad actual para evitar que el usuario regrese al registro
+                finish();
             }
         });
-        builder.setCancelable(false); // Evita que el usuario cierre el diálogo haciendo clic fuera de él
+        builder.setCancelable(false);
         builder.show();
     }
 }

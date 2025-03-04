@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondoregistro"
+    tools:context=".RegistrosResiduos">
+
+    <!-- Mensaje de Bienvenida (esquina superior derecha) -->
+    <TextView
+        android:id="@+id/tvWelcomeR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/fondo_texto"
+        android:elevation="4dp"
+        android:padding="12dp"
+        android:text="Bienvenido, Usuario"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:fontFamily="@font/roboto_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Título: Registro de Residuos -->
+    <TextView
+        android:id="@+id/tvTituloRegistroR"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/fondo_texto"
+        android:elevation="4dp"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Registro de Residuos"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvWelcomeR" />
+
+    <!-- Cantidad Total de Residuos -->
+    <TextView
+        android:id="@+id/tvCantidadResiduosR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/fondo_texto"
+        android:elevation="4dp"
+        android:fontFamily="@font/roboto_medium"
+        android:padding="12dp"
+        android:text="Cantidad Total de Residuos:"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTituloRegistroR" />
+
+    <!-- Cuadro de Texto para Ingresar Cantidad Total -->
+    <EditText
+        android:id="@+id/etCantidadR"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/fondo_edittext"
+        android:backgroundTint="@color/white"
+        android:elevation="4dp"
+        android:hint="Ingrese cantidad"
+        android:inputType="number"
+        android:padding="12dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto_regular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvCantidadResiduosR"
+        app:layout_constraintTop_toBottomOf="@id/tvTituloRegistroR" />
+
+    <!-- Caja de Tipos de Residuo -->
+    <LinearLayout
+        android:id="@+id/cajaTiposResiduoR"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/fondo_texto"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCantidadResiduosR">
+
+        <!-- Título: Tipos de Residuo -->
+        <TextView
+            android:id="@+id/tvTipoResiduoR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tipos de Residuo:"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_bold"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Papel -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/tvPapelR"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Papel:"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_medium"/>
+
+            <EditText
+                android:id="@+id/etCantidadPapelR"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="2"
+                android:background="@drawable/fondo_edittext"
+                android:backgroundTint="@color/white"
+                android:elevation="4dp"
+                android:hint="Cantidad"
+                android:inputType="numberDecimal"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto_regular"/>
+        </LinearLayout>
+
+        <!-- Plástico -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/tvPlasticoR"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Plástico:"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_medium"/>
+
+            <EditText
+                android:id="@+id/etCantidadPlastico"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="2"
+                android:background="@drawable/fondo_edittext"
+                android:backgroundTint="@color/white"
+                android:elevation="4dp"
+                android:hint="Cantidad"
+                android:inputType="numberDecimal"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto_regular"/>
+        </LinearLayout>
+
+        <!-- Vidrio -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/tvVidrio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Vidrio:"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_medium"/>
+
+            <EditText
+                android:id="@+id/etCantidadVidrio"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="2"
+                android:background="@drawable/fondo_edittext"
+                android:backgroundTint="@color/white"
+                android:elevation="4dp"
+                android:hint="Cantidad"
+                android:inputType="numberDecimal"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto_regular"/>
+        </LinearLayout>
+
+        <!-- Orgánico -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/tvOrganico"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Orgánico:"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_medium"/>
+
+            <EditText
+                android:id="@+id/etCantidadOrganico"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="2"
+                android:background="@drawable/fondo_edittext"
+                android:backgroundTint="@color/white"
+                android:elevation="4dp"
+                android:hint="Cantidad"
+                android:inputType="numberDecimal"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto_regular"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Botón para Registrar Residuo -->
+    <Button
+        android:id="@+id/btnRegistrar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="@color/verde_oscuro"
+        android:elevation="8dp"
+        android:fontFamily="@font/roboto_bold"
+        android:padding="16dp"
+        android:text="Registrar Residuos"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cajaTiposResiduoR" />
+
+    <Button
+        android:id="@+id/btnPanelControl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:elevation="8dp"
+        android:fontFamily="@font/roboto_bold"
+        android:backgroundTint="@color/blue"
+        android:padding="16dp"
+        android:text="Ver Panel de control"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnRegistrar" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,26 +43,27 @@
             loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Obtener el email y la contraseña ingresados por el usuario
                     String email = editTextEmail.getText().toString().trim();
                     String password = editTextPassword.getText().toString().trim();
 
-                    // Verificar si los campos están vacíos
                     if (email.isEmpty() || password.isEmpty()) {
                         Toast.makeText(login.this, "Por favor, complete todos los campos.", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
-                    // Verificar las credenciales en la base de datos
+                    // Verificar credenciales
                     boolean credencialesValidas = databaseHelper.verificarCredenciales(email, password);
 
                     if (credencialesValidas) {
-                        // Credenciales válidas: redirigir al usuario a Panelcontrol
-                        Intent intent = new Intent(login.this, Panelcontrol.class);
+                        // Obtener el nombre del usuario desde la base de datos
+                        String nombreUsuario = databaseHelper.obtenerNombreUsuario(email);
+
+                        // Enviar el nombre del usuario a la siguiente actividad
+                        Intent intent = new Intent(login.this, RegistrosResiduos.class);
+                        intent.putExtra("nombreUsuario", nombreUsuario); // Enviar nombre al intent
                         startActivity(intent);
-                        finish(); // Opcional: cierra la actividad actual para evitar que el usuario regrese al login
+                        finish();
                     } else {
-                        // Credenciales inválidas: mostrar un mensaje de error
                         Toast.makeText(login.this, "Email o contraseña incorrectos.", Toast.LENGTH_SHORT).show();
                     }
                 }

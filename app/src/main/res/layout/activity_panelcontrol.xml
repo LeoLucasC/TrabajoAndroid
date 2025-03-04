@@ -52,7 +52,7 @@ app:layout_constraintTop_toTopOf="parent">
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="300dp"
             android:layout_marginBottom="24dp"/>
 
         <!-- Información de fecha, hora y usuario -->
@@ -93,22 +93,25 @@ app:layout_constraintTop_toTopOf="parent">
                 android:textSize="14sp"/>
         </LinearLayout>
 
-        <!-- Campo de búsqueda -->
+
+        <!-- Campo de selección de fecha -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/searchLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Buscar..."
+            android:hint="Seleccionar fecha"
             android:layout_marginBottom="24dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:maxLines="1"/>
+                android:inputType="none"
+                android:focusable="false"
+                android:clickable="true"/>
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <!-- Tabla de registros (usaremos un RecyclerView) -->
         <androidx.recyclerview.widget.RecyclerView
@@ -131,6 +134,22 @@ app:layout_constraintTop_toTopOf="parent">
             android:elevation="4dp"
             android:stateListAnimator="@null"
             app:cornerRadius="8dp"/>
+
+        <Button
+            android:id="@+id/btnGestionar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GESTIONAR"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:padding="12dp"
+            android:elevation="4dp"
+            android:stateListAnimator="@null"
+            android:background="#80FF0000"
+        app:cornerRadius="8dp"/>
+
+
     </LinearLayout>
 </ScrollView>
 </androidx.cardview.widget.CardView>

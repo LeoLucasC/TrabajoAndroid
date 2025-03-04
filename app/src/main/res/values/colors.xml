@@ -2,5 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="purple_500">#FF6200EE</color> <!-- Agrega este color -->
+    <color name="purple_500">#FF6200EE</color>
+    <color name="fondo_claro_moderno">#1E1E1E</color>
+    <color name="light_grey">#F5F5F5</color>
+    <color name="dark_grey">#424242</color>
+    <color name="verde_oscuro">#2E7D32</color>
+    <color name="blue">#0000FF</color>
 </resources>
