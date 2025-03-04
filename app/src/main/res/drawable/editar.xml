@@ -1,4 +1,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#4CAF50"/> <!-- Verde moderno -->
+    <solid android:color="#FF0000"/> <!-- Verde moderno -->
     <corners android:radius="8dp"/> <!-- Esquinas redondeadas -->
+
+    <!-- <color name = "red" >#FF0000</color> -->
 </shape>
