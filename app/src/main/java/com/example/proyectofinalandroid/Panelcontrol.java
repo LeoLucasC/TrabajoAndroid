@@ -1,7 +1,9 @@
 package com.example.proyectofinalandroid;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -25,12 +28,23 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.UnitValue;
 
 
 public class Panelcontrol extends AppCompatActivity {
@@ -77,6 +91,16 @@ public class Panelcontrol extends AppCompatActivity {
         tvUsuario = findViewById(R.id.tvUsuario);
         etSearch = findViewById(R.id.etSearch);
         pieChart = findViewById(R.id.pieChart);
+        Button btnExcel = findViewById(R.id.btnExcel);
+
+
+        btnExcel.setOnClickListener(v -> {
+            if (fechaSeleccionada != null && !fechaSeleccionada.isEmpty()) {
+                generarPDF(fechaSeleccionada); // Llama al método para generar el PDF
+            } else {
+                Toast.makeText(this, "Selecciona una fecha primero", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         residuoAdapter = new ResiduoAdapter(this, listaResiduos, isSelected -> {
@@ -224,7 +248,112 @@ public class Panelcontrol extends AppCompatActivity {
         }
     }
 
+    private void generarPDF(String fecha) {
+        // Ruta del archivo PDF
+        String filePath = getExternalFilesDir(null) + "/Informe_Residuos_" + fecha + ".pdf";
 
+        try {
+            // Crear el archivo PDF
+            PdfWriter writer = new PdfWriter(new FileOutputStream(filePath));
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
 
+            // Título del informe
+            document.add(new Paragraph("Informe de Residuos - " + fecha)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setFontSize(18)
+                    .setBold());
+
+            // Espacio en blanco
+            document.add(new Paragraph("\n"));
+
+            // Información de la gráfica
+            document.add(new Paragraph("Resumen de Residuos por Tipo:")
+                    .setFontSize(14)
+                    .setBold());
+
+            // Obtener los datos de la gráfica
+            Map<String, Float> residuosMap = databaseHelper.obtenerResiduosPorFecha(fecha);
+            if (residuosMap.isEmpty()) {
+                document.add(new Paragraph("No hay datos registrados para esta fecha."));
+            } else {
+                // Crear una tabla para mostrar los datos de la gráfica
+                Table tablaGrafica = new Table(UnitValue.createPercentArray(2)).useAllAvailableWidth();
+                tablaGrafica.addHeaderCell("Tipo de Residuo");
+                tablaGrafica.addHeaderCell("Peso (kg)");
+
+                for (Map.Entry<String, Float> entry : residuosMap.entrySet()) {
+                    tablaGrafica.addCell(entry.getKey());
+                    tablaGrafica.addCell(entry.getValue().toString());
+                }
+
+                document.add(tablaGrafica);
+            }
+
+            // Espacio en blanco
+            document.add(new Paragraph("\n"));
+
+            // Información de la tabla de residuos
+            document.add(new Paragraph("Detalle de Residuos:")
+                    .setFontSize(14)
+                    .setBold());
+
+            // Obtener los datos de la tabla
+            List<Residuo> listaResiduos = databaseHelper.obtenerListaResiduosPorFecha(fecha);
+            if (listaResiduos.isEmpty()) {
+                document.add(new Paragraph("No hay registros para esta fecha."));
+            } else {
+                // Crear una tabla para mostrar los datos de la tabla de residuos
+                Table tablaResiduos = new Table(UnitValue.createPercentArray(5)).useAllAvailableWidth();
+                tablaResiduos.addHeaderCell("ID");
+                tablaResiduos.addHeaderCell("Usuario");
+                tablaResiduos.addHeaderCell("Tipo");
+                tablaResiduos.addHeaderCell("Peso (kg)");
+                tablaResiduos.addHeaderCell("Fecha");
+
+                for (Residuo residuo : listaResiduos) {
+                    tablaResiduos.addCell(String.valueOf(residuo.getId()));
+                    tablaResiduos.addCell(residuo.getNombreUsuario());
+                    tablaResiduos.addCell(residuo.getTipo());
+                    tablaResiduos.addCell(String.valueOf(residuo.getPeso()));
+                    tablaResiduos.addCell(residuo.getFecha());
+                }
+
+                document.add(tablaResiduos);
+            }
+
+            // Cerrar el documento
+            document.close();
+
+            // Mostrar mensaje de éxito
+            Toast.makeText(this, "Informe generado en: " + filePath, Toast.LENGTH_LONG).show();
+
+            // Abrir el archivo PDF
+            abrirPDF(filePath);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al generar el informe PDF", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void abrirPDF(String filePath) {
+        File file = new File(filePath);
+
+        // Usar FileProvider para obtener el URI del archivo
+        Uri uri = FileProvider.getUriForFile(this, getPackageName() + ".provider", file);
+
+        // Crear un Intent para abrir el archivo
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri, "application/pdf");
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        // Verificar si hay una aplicación para abrir el PDF
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "No hay una aplicación para abrir PDFs", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }

@@ -42,6 +42,7 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
+    implementation("com.itextpdf:itext7-core:7.2.5")
 
     // Glide para cargar GIFs
     implementation("com.github.bumptech.glide:glide:4.15.1")

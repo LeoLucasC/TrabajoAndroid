@@ -75,7 +75,7 @@
                         android:textStyle="bold"/>
 
                     <EditText
-                        android:id="@+id/etTotalResiduos"
+                        android:id="@+id/etID"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
@@ -107,7 +107,7 @@
                         android:fontFamily="sans-serif-condensed"/>
 
                     <EditText
-                        android:id="@+id/etCantidadPapel"
+                        android:id="@+id/etusuario"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
@@ -139,7 +139,7 @@
                         android:fontFamily="sans-serif-condensed"/>
 
                     <EditText
-                        android:id="@+id/etCantidadPlastico"
+                        android:id="@+id/etTipo"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
@@ -171,7 +171,7 @@
                         android:fontFamily="sans-serif-condensed"/>
 
                     <EditText
-                        android:id="@+id/etCantidadVidrio"
+                        android:id="@+id/etpeso"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
@@ -203,7 +203,7 @@
                         android:fontFamily="sans-serif-condensed"/>
 
                     <EditText
-                        android:id="@+id/etCantidadOrganico"
+                        android:id="@+id/etfecha"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
@@ -215,13 +215,6 @@
                         android:paddingHorizontal="12dp"
                         android:textColor="@color/black"
                         android:textSize="16sp"/>
-
-
-
-
-
-
-
 
 
                 </LinearLayout>

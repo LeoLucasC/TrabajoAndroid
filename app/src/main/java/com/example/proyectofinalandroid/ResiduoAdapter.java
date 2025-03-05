@@ -121,4 +121,12 @@ public class ResiduoAdapter extends RecyclerView.Adapter<ResiduoAdapter.ViewHold
             tvFecha = itemView.findViewById(R.id.tvFechatable);
         }
     }
+
+
+
+
+
+
+
+
 }
