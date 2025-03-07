@@ -77,20 +77,32 @@ public class DatabaseHelper {
         try {
             db = SQLiteDatabase.openDatabase(context.getDatabasePath(DATABASE_NAME).getPath(), null, SQLiteDatabase.OPEN_READWRITE);
 
+            // Mensajes de depuración para verificar los datos que se están insertando
+            Log.d("DatabaseHelper", "Insertando usuario con los siguientes datos:");
+            Log.d("DatabaseHelper", "nombre: " + nombre);
+            Log.d("DatabaseHelper", "email: " + email);
+            Log.d("DatabaseHelper", "contrasena: " + contrasena);
+
             ContentValues values = new ContentValues();
             values.put("nombre", nombre);
             values.put("email", email);
             values.put("contrasena", contrasena);
 
             resultado = db.insert("usuarios", null, values);
+
+            if (resultado == -1) {
+                Log.e("DatabaseHelper", "⚠ Error: No se pudo insertar el usuario.");
+            } else {
+                Log.d("DatabaseHelper", "✅ Usuario insertado con éxito. ID: " + resultado);
+            }
+
         } catch (Exception e) {
-            Log.e("DatabaseHelper", "Error insertando usuario: " + e.getMessage());
+            Log.e("DatabaseHelper", "⚠ Error insertando usuario: " + e.getMessage());
         } finally {
             if (db != null) db.close();
         }
         return resultado;
     }
-
 
     public long insertarResiduo(int usuarioId, String tipo, float peso, String fecha) {
         long resultado = -1;
@@ -98,6 +110,13 @@ public class DatabaseHelper {
 
         try {
             db = SQLiteDatabase.openDatabase(context.getDatabasePath(DATABASE_NAME).getPath(), null, SQLiteDatabase.OPEN_READWRITE);
+
+            // Mensajes de depuración para verificar los datos que se están insertando
+            Log.d("DatabaseHelper", "Insertando residuo con los siguientes datos:");
+            Log.d("DatabaseHelper", "usuario_id: " + usuarioId);
+            Log.d("DatabaseHelper", "tipo: " + tipo);
+            Log.d("DatabaseHelper", "peso: " + peso);
+            Log.d("DatabaseHelper", "fecha: " + fecha);
 
             ContentValues values = new ContentValues();
             values.put("usuario_id", usuarioId);
@@ -121,11 +140,46 @@ public class DatabaseHelper {
         return resultado;
     }
 
+    public Map<String, String> obtenerUsuarioPorEmail(String email) {
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        Map<String, String> usuarioData = new HashMap<>();
+
+
+        usuarioData.put("usuario_id", "-1");
+        usuarioData.put("nombreUsuario", "Usuario");
+
+        try {
+            db = SQLiteDatabase.openDatabase(context.getDatabasePath(DATABASE_NAME).getPath(), null, SQLiteDatabase.OPEN_READONLY);
+
+            Log.d("DatabaseHelper", "📌 Buscando usuario con email: " + email);
+
+            String query = "SELECT id, nombre FROM usuarios WHERE email = ?";
+            cursor = db.rawQuery(query, new String[]{email});
+
+            if (cursor.moveToFirst()) {
+                usuarioData.put("usuario_id", String.valueOf(cursor.getInt(0))); // ID del usuario
+                usuarioData.put("nombreUsuario", cursor.getString(1)); // Nombre del usuario
+                Log.d("DatabaseHelper", "✅ Usuario encontrado: ID=" + usuarioData.get("usuario_id") + ", Nombre=" + usuarioData.get("nombreUsuario"));
+            } else {
+                Log.e("DatabaseHelper", "⚠ Usuario no encontrado en la base de datos.");
+            }
+
+        } catch (Exception e) {
+            Log.e("DatabaseHelper", "⚠ Error obteniendo datos del usuario: " + e.getMessage());
+        } finally {
+            if (cursor != null) cursor.close();
+            if (db != null) db.close();
+        }
+
+        return usuarioData;
+    }
+
 
     public String obtenerNombreUsuario(String email) {
         SQLiteDatabase db = null;
         Cursor cursor = null;
-        String nombreUsuario = "Usuario"; // Valor por defecto en caso de error
+        String nombreUsuario = "Usuario";
 
         try {
             db = SQLiteDatabase.openDatabase(context.getDatabasePath(DATABASE_NAME).getPath(), null, SQLiteDatabase.OPEN_READONLY);
@@ -144,6 +198,8 @@ public class DatabaseHelper {
         return nombreUsuario;
     }
 
+
+
     public Map<String, Float> obtenerResiduosDelDia() {
         Map<String, Float> residuosMap = new HashMap<>();
         SQLiteDatabase db = null;
@@ -152,10 +208,10 @@ public class DatabaseHelper {
         try {
             db = SQLiteDatabase.openDatabase(context.getDatabasePath(DATABASE_NAME).getPath(), null, SQLiteDatabase.OPEN_READONLY);
 
-            // Obtener la fecha actual en formato YYYY-MM-DD
+
             String fechaActual = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-            // Query para obtener la suma del peso de cada tipo de residuo del día actual
+
             String query = "SELECT tipo, SUM(peso) as total FROM residuos WHERE fecha LIKE ? GROUP BY tipo";
             cursor = db.rawQuery(query, new String[]{fechaActual + "%"});
 
@@ -183,7 +239,7 @@ public class DatabaseHelper {
 
             Log.d("DatabaseHelper", "Consultando residuos para la fecha: " + fecha);
 
-            // Asegurar que la fecha esté en formato correcto
+
             SimpleDateFormat formatoEntrada = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             SimpleDateFormat formatoSalida = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
@@ -225,9 +281,9 @@ public class DatabaseHelper {
         try {
             db = SQLiteDatabase.openDatabase(context.getDatabasePath(DATABASE_NAME).getPath(), null, SQLiteDatabase.OPEN_READONLY);
 
-            Log.d("DatabaseHelper", "📥 Consultando lista de residuos para la fecha: " + fecha);
+            Log.d("DatabaseHelper", "📥 Consultando lista de residuos agrupados para la fecha: " + fecha);
 
-            // Asegurar que la fecha esté en formato correcto
+
             SimpleDateFormat formatoEntrada = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             SimpleDateFormat formatoSalida = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
@@ -238,29 +294,30 @@ public class DatabaseHelper {
                 Log.e("DatabaseHelper", "⚠ Error formateando fecha en consulta: " + e.getMessage());
             }
 
-            // Consulta SQL para traer los datos con el nombre del usuario
-            String query = "SELECT r.id, u.nombre, r.tipo, r.peso, r.fecha " +
+
+            String query = "SELECT u.nombre, r.tipo, SUM(r.peso) as total_peso, r.fecha " +
                     "FROM residuos r " +
                     "INNER JOIN usuarios u ON r.usuario_id = u.id " +
                     "WHERE r.fecha = ? " +
-                    "ORDER BY r.id ASC";
+                    "GROUP BY u.nombre, r.tipo, r.fecha " +
+                    "ORDER BY u.nombre ASC, r.tipo ASC";
+
 
             cursor = db.rawQuery(query, new String[]{fecha});
 
             while (cursor.moveToNext()) {
-                int id = cursor.getInt(0);
-                String nombreUsuario = cursor.getString(1);
-                String tipo = cursor.getString(2);
-                float peso = cursor.getFloat(3);
-                String fechaResiduo = cursor.getString(4);
+                String nombreUsuario = cursor.getString(0);
+                String tipo = cursor.getString(1);
+                float totalPeso = cursor.getFloat(2);
+                String fechaResiduo = cursor.getString(3);
 
-                listaResiduos.add(new Residuo(id, nombreUsuario, tipo, peso, fechaResiduo));
+                listaResiduos.add(new Residuo(0, nombreUsuario, tipo, totalPeso, fechaResiduo));
             }
 
             if (listaResiduos.isEmpty()) {
-                Log.d("DatabaseHelper", "⚠ No se encontraron registros para la fecha: " + fecha);
+                Log.d("DatabaseHelper", "⚠ No se encontraron registros agrupados para la fecha: " + fecha);
             } else {
-                Log.d("DatabaseHelper", "✅ Se encontraron " + listaResiduos.size() + " residuos para la fecha: " + fecha);
+                Log.d("DatabaseHelper", "✅ Se encontraron " + listaResiduos.size() + " registros agrupados para la fecha: " + fecha);
             }
 
         } catch (Exception e) {
@@ -271,6 +328,43 @@ public class DatabaseHelper {
         }
 
         return listaResiduos;
+    }
+
+
+    public int eliminarResiduoPorUsuarioTipoFechaPeso(String nombreUsuario, String tipo, String fecha, float peso) {
+        SQLiteDatabase db = null;
+        int filasAfectadas = 0;
+
+        try {
+            db = SQLiteDatabase.openDatabase(context.getDatabasePath(DATABASE_NAME).getPath(), null, SQLiteDatabase.OPEN_READWRITE);
+
+            Log.d("DatabaseHelper", "🗑 Eliminando residuo con peso exacto: " + peso + " kg");
+
+            // Obtener el usuario_id basado en su nombre
+            String queryUsuario = "SELECT id FROM usuarios WHERE nombre = ?";
+            Cursor cursor = db.rawQuery(queryUsuario, new String[]{nombreUsuario});
+
+            if (cursor.moveToFirst()) {
+                int usuarioId = cursor.getInt(0);
+
+                // Eliminar solo el registro con ese usuario, tipo, fecha y peso exacto
+                filasAfectadas = db.delete("residuos",
+                        "usuario_id = ? AND tipo = ? AND fecha = ? AND peso = ?",
+                        new String[]{String.valueOf(usuarioId), tipo, fecha, String.valueOf(peso)});
+
+                Log.d("DatabaseHelper", "✅ Filas eliminadas: " + filasAfectadas);
+            } else {
+                Log.e("DatabaseHelper", "⚠ Usuario no encontrado.");
+            }
+
+            cursor.close();
+        } catch (Exception e) {
+            Log.e("DatabaseHelper", "⚠ Error eliminando residuo: " + e.getMessage());
+        } finally {
+            if (db != null) db.close();
+        }
+
+        return filasAfectadas;
     }
 
 

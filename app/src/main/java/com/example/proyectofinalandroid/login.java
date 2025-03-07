@@ -61,6 +61,7 @@
                         // Enviar el nombre del usuario a la siguiente actividad
                         Intent intent = new Intent(login.this, RegistrosResiduos.class);
                         intent.putExtra("nombreUsuario", nombreUsuario); // Enviar nombre al intent
+                        intent.putExtra("emailUsuario", email); // Enviar email al intent
                         startActivity(intent);
                         finish();
                     } else {

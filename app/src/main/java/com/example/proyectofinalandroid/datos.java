@@ -1,6 +1,7 @@
 package com.example.proyectofinalandroid;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
@@ -8,16 +9,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import com.example.proyectofinalandroid.data.DatabaseHelper;
 
 public class datos extends AppCompatActivity {
 
     private EditText etTotalID, etusuario, ettipo, etpeso, etfecha;
+    private Button btnEliminar;
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_datos);
+
+        dbHelper = new DatabaseHelper(this);
 
         // Inicializar los campos de texto
         etTotalID = findViewById(R.id.etID);
@@ -43,6 +49,8 @@ public class datos extends AppCompatActivity {
             etpeso.setText(String.valueOf(peso)); // Mostrar el peso
             etfecha.setText(fecha); // Mostrar la fecha
         }
+
+
 
         // Configurar el padding para la vista principal
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

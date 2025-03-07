@@ -24,12 +24,15 @@ import com.example.proyectofinalandroid.data.DatabaseHelper;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 public class RegistrosResiduos extends AppCompatActivity {
 
     private EditText etCantidadPapel, etCantidadPlastico, etCantidadVidrio, etCantidadOrganico,etCantidadTotal;
     private DatabaseHelper dbHelper;
-    private int usuario_id = 1; // Esto debería obtenerse del usuario logueado
+    private String nombreUsuario; // Definir como variable de clase
+    private String emailUsuario;
+    private int usuario_id; // Esto debería obtenerse del usuario logueado
 
 
 
@@ -40,16 +43,35 @@ public class RegistrosResiduos extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_registros_residuos);
 
-        TextView tvWelcomeR = findViewById(R.id.tvWelcomeR);
 
-        // Obtener el nombre del usuario desde el Intent
-        String nombreUsuario = getIntent().getStringExtra("nombreUsuario");
-        if (nombreUsuario != null && !nombreUsuario.isEmpty()) {
-            tvWelcomeR.setText("Bienvenido, " + nombreUsuario);
+        TextView tvWelcomeR = findViewById(R.id.tvWelcomeR);
+        dbHelper = new DatabaseHelper(this);
+
+        // Obtener datos del Intent
+        emailUsuario = getIntent().getStringExtra("emailUsuario");
+
+        Log.d("RegistrosResiduos", "📌 Email recibido en Intent: " + emailUsuario);
+
+        if (emailUsuario != null && !emailUsuario.isEmpty()) {
+            Map<String, String> usuarioData = dbHelper.obtenerUsuarioPorEmail(emailUsuario);
+            usuario_id = Integer.parseInt(usuarioData.get("usuario_id"));
+            nombreUsuario = usuarioData.get("nombreUsuario"); // Asignar a la variable de clase
+
+            if (nombreUsuario != null && !nombreUsuario.isEmpty()) {
+                tvWelcomeR.setText("Bienvenido, " + nombreUsuario);
+            } else {
+                tvWelcomeR.setText("Bienvenido, Usuario Desconocido");
+            }
+        } else {
+            Log.e("RegistrosResiduos", "⚠ Error: emailUsuario es NULL. No se puede obtener usuario_id.");
         }
 
 
-        dbHelper = new DatabaseHelper(this);
+        Log.d("RegistrosResiduos", "📌 Usuario ID obtenido: " + usuario_id);
+
+
+
+
 
         etCantidadPapel = findViewById(R.id.etCantidadPapelR);
         etCantidadPlastico = findViewById(R.id.etCantidadPlastico);
@@ -80,7 +102,9 @@ public class RegistrosResiduos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RegistrosResiduos.this, Panelcontrol.class);
-                intent.putExtra("nombreUsuario", nombreUsuario); // Enviar el nombre del usuario
+                intent.putExtra("nombreUsuario", nombreUsuario); // Enviar nombre del usuario
+                intent.putExtra("emailUsuario", emailUsuario); // Enviar email del usuario
+                intent.putExtra("usuario_id", usuario_id); // Enviar el ID del usuario
                 startActivity(intent);
             }
         });

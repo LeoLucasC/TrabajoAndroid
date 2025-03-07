@@ -71,6 +71,29 @@ public class Panelcontrol extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(this);
 
+
+
+        // Obtener los datos del usuario desde el Intent
+        String nombreUsuario = getIntent().getStringExtra("nombreUsuario");
+        String emailUsuario = getIntent().getStringExtra("emailUsuario");
+        int usuario_id = getIntent().getIntExtra("usuario_id", -1);
+
+        Log.d("Panelcontrol", "📌 Nombre de usuario recibido: " + nombreUsuario);
+        Log.d("Panelcontrol", "📌 Email recibido: " + emailUsuario);
+        Log.d("Panelcontrol", "📌 Usuario ID recibido: " + usuario_id);
+
+        // Mostrar el nombre del usuario en la interfaz
+        tvUsuario = findViewById(R.id.tvUsuario);
+        if (nombreUsuario != null && !nombreUsuario.isEmpty()) {
+            tvUsuario.setText("Usuario: " + nombreUsuario);
+        } else {
+            tvUsuario.setText("Usuario: Desconocido");
+        }
+
+
+
+
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         listaResiduos = new ArrayList<>();
@@ -118,9 +141,7 @@ public class Panelcontrol extends AppCompatActivity {
 
         mostrarFechaHoraActual();
 
-        // Obtener el usuario desde el intent
-        String usuario = getIntent().getStringExtra("nombreUsuario");
-        tvUsuario.setText("Usuario: " + (usuario != null && !usuario.isEmpty() ? usuario : "Desconocido"));
+
 
         // Configurar el DatePickerDialog al hacer clic en el campo de fecha
         etSearch.setOnClickListener(v -> mostrarSelectorDeFecha());
